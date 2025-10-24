@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: orders-producer-java
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP:orders-workers}
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
+    properties:
+      spring.json.trusted.packages: "*"
+
+  data:
+    redis:
+      connect-timeout: 2000
+      client-type: lettuce
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/ordersdb}
+
+kafka:
+  topic:
+    orders: orders-topic
+
+server:
+  port: 8081
